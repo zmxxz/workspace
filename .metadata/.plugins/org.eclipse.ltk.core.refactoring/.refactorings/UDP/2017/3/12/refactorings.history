@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;Clientapp_UDP.java&apos; to &apos;MyQQ/src/com.ComputerNetwork&apos;&#x0D;&#x0A;- Original project: &apos;UDP&apos;&#x0D;&#x0A;- Destination element: &apos;MyQQ/src/com.ComputerNetwork&apos;&#x0D;&#x0A;- Original element: &apos;com.cn.Clientapp_UDP.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="=MyQQ/src&lt;com.ComputerNetwork" element1="/src&lt;com.cn{Clientapp_UDP.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1489934789908" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,134 @@
+package com.ComputerNetwork;
+
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Date;
+public class ChatRoom implements ActionListener,KeyListener{
+	JFrame f = new JFrame("Myqq");
+	JLabel l1 = new JLabel("聊天记录：",JLabel.LEFT);
+	JLabel l2 = new JLabel("输入框：",JLabel.LEFT);
+	JButton send = new JButton("发送");
+	JTextArea log = new JTextArea();
+	JTextArea input = new JTextArea();
+	DatagramSocket reSocket,seSocket;
+	DatagramPacket rePacket,sePacket;
+	String ipaddress;
+//	public static void main(String[] agrs){
+//		display();
+//		reMessage();
+//	}
+	public  ChatRoom(String ip){
+		ipaddress = ip;
+	}
+	public void display(){
+		
+		f.setLayout(null);
+
+		f.setSize(420, 480);
+		
+		l1.setBounds(10, 0, 400, 20);
+		f.add(l1);
+		
+		
+		log.setEditable(false);
+		log.setBounds(0, 20, 400, 205);
+		f.add(log);
+
+		
+		l2.setBounds(0, 225, 400, 20);
+		f.add(l2);
+
+		
+		input.setEditable(true);
+		input.setBounds(0,245,400,155);
+		f.add(input);
+
+		
+		send.setBounds(170, 400, 60, 40);
+		f.add(send);
+
+		f.setVisible(true);
+		f.setResizable(false);
+		try{
+			seSocket = new DatagramSocket(3000);
+		}catch(IOException e){
+			log.append("in send():"+e + "\n");
+		}
+		send.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				seMessage();
+			}
+		});
+	}
+	public void reMessage(){
+		try{
+			reSocket = new DatagramSocket(3333);
+			//建立端口号为 9090的DatagramSocket
+			while(true){
+				byte[] buf = new byte[500];
+				rePacket = new DatagramPacket(buf,buf.length);
+				//建立DatagramPacket对象
+				reSocket.receive(rePacket);
+				//接收数据抱包
+				ByteArrayInputStream bin =new ByteArrayInputStream(rePacket.getData());
+				BufferedReader reader =new BufferedReader(new InputStreamReader(bin));
+				log.append("他：" +reader.readLine());
+				log.append("\n");
+			}
+		}catch(Exception e){
+			log.append("in receive():"+e+"\n");
+		}
+	}
+	public void seMessage(){
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			PrintStream ps = new PrintStream(bos);
+			ps.print(input.getText());
+			byte buf[] = bos.toByteArray();
+			sePacket = new DatagramPacket(buf,buf.length,
+					InetAddress.getByName(ipaddress),3333);
+			System.out.println("in send():"+ipaddress);
+			seSocket.send(sePacket);
+			log.append("我：" + input.getText()+"\n");
+			input.setText("");
+		}  catch (IOException e) {
+			// TODO Auto-generated catch block
+			log.append("in send():"+e +"\n");
+		}
+	}
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource()== send){
+			seMessage();
+		}
+	}
+	public void windowClosing(WindowEvent e){
+		System.out.println("聊天程序已关闭，再见！\n");
+		System.exit(0);
+	}
+	public void keyPressed(KeyEvent e){
+		if(e.getSource() == input){
+			if(e.getKeyChar() ==KeyEvent.VK_ENTER){
+				seMessage();
+			}
+		}
+	}
+	public void keyTyped(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
+	
+}
+
