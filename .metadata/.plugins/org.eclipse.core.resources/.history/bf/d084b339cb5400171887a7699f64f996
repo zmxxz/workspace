@@ -1,0 +1,9 @@
+package database;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+public class addframe {
+	JFrame af = new JFrame("add");
+	
+}

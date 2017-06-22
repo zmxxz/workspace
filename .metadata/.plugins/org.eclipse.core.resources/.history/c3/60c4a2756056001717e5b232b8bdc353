@@ -1,0 +1,134 @@
+package database;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+public class modifyframe {
+	JFrame mf = new JFrame("modify");
+	Container c = mf.getContentPane();
+	DefaultTableModel model;
+	private JComboBox comboBox = new JComboBox();
+	private JTextField modoption;
+	private JTable table;
+	JScrollPane scrollPane ;
+	ResultSet rs;
+	public modifyframe(){
+		mf.getContentPane().setLayout(null);
+		
+		JPanel p1 = new JPanel();
+		p1.setBounds(0, 0, 584, 66);
+		mf.getContentPane().add(p1);
+		
+		JPanel p3 = new JPanel();
+		p3.setBounds(0, 235, 584, 47);
+		mf.getContentPane().add(p3);
+		
+		JButton submit = new JButton("\u63D0\u4EA4");
+		submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					modify();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		p3.add(submit);
+		
+	
+		mf.getContentPane().add(p1, BorderLayout.CENTER);
+		p1.setLayout(null);
+		comboBox.setBounds(99, 10, 76, 29);
+		comboBox.addItem("姓名");
+		comboBox.addItem("学号");
+		comboBox.addItem("电话");
+		comboBox.addItem("e-mail");
+		p1.add(comboBox);
+		
+		modoption = new JTextField();
+		modoption.setBounds(219, 10, 131, 29);
+		p1.add(modoption);
+		modoption.setColumns(10);
+		
+		JButton sle = new JButton("\u67E5\u8BE2");
+		sle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					select();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		sle.setBounds(392, 10, 101, 29);
+		p1.add(sle);
+		
+		JPanel p2 = new JPanel();
+		p2.setBounds(0, 63, 584, 172);
+		mf.getContentPane().add(p2);
+		p2.setLayout(null);
+		
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(new Object[]{"姓名","性别","学号","电话","email","院系"});
+		table = new JTable(model);
+		scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(0, 0, 582, 172);
+		p2.add(scrollPane);
+
+		
+		mf.setVisible(true);
+		mf.setBounds(710,300,600,320);
+		
+	}
+	public void select() throws Exception{
+		Connection conn = addframe.getConnection();
+		String sql = null;
+		if(comboBox.getSelectedItem()=="姓名"){
+			sql = "select * from tongxun where sname = '"+modoption.getText()+"'";
+		}else if(comboBox.getSelectedItem()=="学号"){
+			sql = "select * from tongxun where sno ='"+modoption.getText()+"'";
+		}else if(comboBox.getSelectedItem()=="电话"){
+			sql = "select * from tongxun where phone = '"+modoption.getText()+"'";
+		}else if(comboBox.getSelectedItem()=="email"){
+			sql = "select * from tongxun where email = '"+modoption.getText()+"'";
+		}
+		Statement stmt = conn.createStatement();
+		rs = stmt.executeQuery(sql);
+		model.setRowCount(0);
+		while(rs.next()){
+			String name = rs.getString("sname");
+			String gender = rs.getString("sgender");
+			String no = rs.getString("sno");
+			String phone = rs.getString("phone");
+			String email = rs.getString("email");
+			String dept = rs.getString("dept");
+			model.addRow(new Object[]{name,gender,no,phone,email,dept});
+		}
+		
+		stmt.close();
+	}
+	public void modify() throws Exception{
+		Connection conn = addframe.getConnection();
+		String sql = "update tongxun set sname=?,sgender=?,sno=?,phone=?,email=?,dept=? "+
+				"where sno=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		int count = table.getSelectedRow();
+		stmt.setString(1, table.getValueAt(count, 0).toString().trim());
+		stmt.setString(2, table.getValueAt(count, 1).toString().trim());
+		stmt.setString(3, table.getValueAt(count, 2).toString().trim());
+		stmt.setString(4, table.getValueAt(count, 3).toString().trim());
+		stmt.setString(5, table.getValueAt(count, 4).toString().trim());
+		stmt.setString(6, table.getValueAt(count, 5).toString().trim());
+		stmt.setString(7, table.getValueAt(count, 2).toString().trim());
+		stmt.executeUpdate();
+		stmt.close();
+	}
+}

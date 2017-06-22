@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;info.properties&apos; to &apos;doc&apos;&#x0D;&#x0A;- Original project: &apos;Jdbc&apos;&#x0D;&#x0A;- Destination element: &apos;doc&apos;&#x0D;&#x0A;- Original element: &apos;info.properties&apos;" description="Copy file" element1="src/info.properties" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1497863065625" target="/Db/doc" units="0" version="1.0"/>
+</session>

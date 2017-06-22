@@ -203,20 +203,21 @@ class Chat extends JFrame implements ActionListener{
   		
   		
   		log.setEditable(false);
-  		log.setBounds(0, 20, 400, 205);
-  		this.add(log);
+  		JScrollPane l = new JScrollPane(log);
+  		l.setBounds(8, 20, 400, 205);
+  		this.add(l);
 
   		
-  		l2.setBounds(0, 225, 400, 20);
+  		l2.setBounds(8, 225, 400, 20);
   		this.add(l2);
 
   		
   		input.setEditable(true);
-  		input.setBounds(0,245,400,155);
+  		input.setBounds(8,245,400,155);
   		this.add(input);
 
   		
-  		send.setBounds(170, 400, 60, 40);
+  		send.setBounds(170, 410, 60, 40);
   		send.setActionCommand("send");
   		this.add(send);
   		send.addActionListener(this);

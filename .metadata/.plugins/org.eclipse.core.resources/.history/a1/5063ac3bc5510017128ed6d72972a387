@@ -1,0 +1,31 @@
+package database;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class manu {
+	JFrame wc = new JFrame("欢迎页");
+	Container c = wc.getContentPane();
+	JLabel l = new JLabel("欢迎来到通讯录",JLabel.CENTER);
+	JPanel p = new JPanel();
+	JButton add = new JButton("1.增加");
+	JButton del = new JButton("2.删除");
+	JButton mod = new JButton("3.修改");
+	JButton sle = new JButton("4.查询");
+	public manu(){
+		c.setLayout(new GridLayout(5,1));
+		c.add(l);
+		c.add(add);
+		c.add(del);
+		c.add(mod);
+		c.add(sle);
+		c.setVisible(true);
+	}
+}

@@ -1,7 +1,5 @@
 package com.ComputerNetwork;
 
-
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -30,8 +28,6 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
-
-
 public class MyServer extends JFrame{
     private static final int PORT=9090;
     private JTextArea area;
@@ -52,9 +48,7 @@ public class MyServer extends JFrame{
         menu.setMnemonic('c');//设置助记符
         final JMenuItem itemRun = new JMenuItem("启动");
         itemRun.setActionCommand("run");
-
         menu.add(itemRun);
-
         menu.addSeparator();
         itemRun.setAccelerator(KeyStroke.getKeyStroke('R',KeyEvent.CTRL_MASK));//设置快捷键
         JMenuItem itemExit = new JMenuItem("退出");
@@ -101,6 +95,7 @@ public class MyServer extends JFrame{
 
         setVisible(true);
    }
+    //启动服务器
     private void startServer() {
         try {
             ServerSocket server = new ServerSocket(PORT);
@@ -111,6 +106,7 @@ public class MyServer extends JFrame{
             e.printStackTrace();
         }
     }
+    //服务器线程类
     class ServerThread extends Thread{
         private ServerSocket server;
         public ServerThread(ServerSocket server) {
@@ -129,6 +125,7 @@ public class MyServer extends JFrame{
                        // System.out.println("\r\n用户：["+userName+"]登录,"+clientSocket);
                         lm.addElement(userName);
                         new ClientThread(clientSocket).start();
+                        //通知现在上线的用户
                         msgAll(userName);
                         msgSelf(clientSocket);
 
@@ -142,57 +139,7 @@ public class MyServer extends JFrame{
         }
 
     }
-
-    private void receiveAndSendMsg(Socket clientSocketReceive) {
-        try {
-            Scanner sc = new Scanner(clientSocketReceive.getInputStream());
-            while(sc.hasNextLine()){
-                String str = sc.nextLine();
-                String msgs[]=str.split("@#");
-                if("on".equals(msgs[0])){
-                    if("全部".equals(msgs[1])){
-                        String msg = "msg@#"+msgs[3]+"@#"+msgs[2];
-
-                        Iterator<Socket> it= usersMap.values().iterator();
-                        while(it.hasNext()){
-                            Socket clientSocketSend = it.next();
-                            PrintWriter pw = new PrintWriter(clientSocketSend.getOutputStream(), true);
-                            pw.println(msg);
-                            pw.flush();
-                        }
-                    }else{
-                        Socket clientSocketSend = usersMap.get(msgs[1]);
-                        String msg = "msg@#"+msgs[3]+"@#"+msgs[2];
-                        PrintWriter pw = new PrintWriter(clientSocketSend.getOutputStream(), true);
-                        pw.println(msg);
-                        pw.flush();
-                    }
-                }else if("exit".equals(msgs[0])){
-                    usersMap.remove(msgs[3]);
-                    Socket removeSocket = usersMap.get(msgs[3]);
-                    area.append("\r\n用户:["+msgs[3]+"]退出登录");
-                    System.out.println("\r\n用户:["+msgs[3]+"]退出登录");
-                    lm.removeElement(msgs[3]);
-
-                    Iterator<Socket> it= usersMap.values().iterator();
-                    String msg = "msg@#server@#用户["+msgs[3]+"]退出登录";
-                    String msg2 ="cmdRed@#server@#"+msgs[3];
-                    while(it.hasNext()){
-                        Socket clientSocketSend = it.next();
-                        PrintWriter pw = new PrintWriter(clientSocketSend.getOutputStream(), true);
-                        pw.println(msg);
-                        pw.flush();
-                        pw.println(msg2);
-                        pw.flush();
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+    
     private void msgSelf(Socket clientSocket) {
         try {
             Iterator<String> it = usersMap.keySet().iterator();
@@ -223,7 +170,7 @@ public class MyServer extends JFrame{
 
         }
     }
-
+    //客户端线程
     class ClientThread extends Thread{
         private Socket clientSocket;
         public ClientThread(Socket clientSocket) {
@@ -233,7 +180,56 @@ public class MyServer extends JFrame{
         public void run() {
             receiveAndSendMsg(clientSocket);
         }
+    }
+  //对接收的socket中的报文进行分析
+    private void receiveAndSendMsg(Socket clientSocketReceive) {
+        try {
+            Scanner sc = new Scanner(clientSocketReceive.getInputStream());
+            while(sc.hasNextLine()){
+                String str = sc.nextLine();
+                String msgs[]=str.split("@#");
+                if("on".equals(msgs[0])){
+                    if("全部".equals(msgs[1])){//通知所有用户（服务器消息）
+                        String msg = "msg@#"+msgs[3]+"@#"+msgs[2];
 
+                        Iterator<Socket> it= usersMap.values().iterator();
+                        while(it.hasNext()){
+                            Socket clientSocketSend = it.next();
+                            PrintWriter pw = new PrintWriter(clientSocketSend.getOutputStream(), true);
+                            pw.println(msg);
+                            pw.flush();
+                        }
+                    }else{//转发来自用户的消息
+                        Socket clientSocketSend = usersMap.get(msgs[1]);
+                        String msg = "msg@#"+msgs[3]+"@#"+msgs[2];
+                        PrintWriter pw = new PrintWriter(clientSocketSend.getOutputStream(), true);
+                        pw.println(msg);
+                        pw.flush();
+                    }
+                }else if("exit".equals(msgs[0])){//用户退出登录操作
+                    usersMap.remove(msgs[3]);
+                    Socket removeSocket = usersMap.get(msgs[3]);
+                    area.append("\r\n用户:["+msgs[3]+"]退出登录");
+                    System.out.println("\r\n用户:["+msgs[3]+"]退出登录");
+                    lm.removeElement(msgs[3]);
+
+                    Iterator<Socket> it= usersMap.values().iterator();
+                    String msg = "msg@#server@#用户["+msgs[3]+"]退出登录";
+                    String msg2 ="cmdRed@#server@#"+msgs[3];
+                    while(it.hasNext()){
+                        Socket clientSocketSend = it.next();
+                        PrintWriter pw = new PrintWriter(clientSocketSend.getOutputStream(), true);
+                        pw.println(msg);
+                        pw.flush();
+                        pw.println(msg2);
+                        pw.flush();
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     public static void main(String[] args) {

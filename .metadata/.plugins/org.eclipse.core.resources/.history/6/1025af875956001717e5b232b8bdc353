@@ -1,0 +1,66 @@
+package database;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+public class queryframe {
+	JFrame qf = new JFrame("query");
+	Container c = qf.getContentPane();
+	DefaultTableModel model;
+	JComboBox op = new JComboBox();
+	JTextField tf = new JTextField(20);
+	JTable tbl ;
+	JScrollPane scrollPane;
+	ResultSet rs;
+	private JTextField textField;
+	private JTable table;
+	public queryframe(){
+		qf.getContentPane().setLayout(null);
+		
+		JPanel p1 = new JPanel();
+		p1.setBounds(0, 0, 530, 97);
+		qf.getContentPane().add(p1);
+		p1.setLayout(null);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(28, 26, 98, 26);
+		p1.add(comboBox);
+		
+		textField = new JTextField();
+		textField.setBounds(140, 26, 114, 26);
+		p1.add(textField);
+		textField.setColumns(10);
+		
+		JButton qsub = new JButton("²éÑ¯");
+		
+		qsub.setBounds(264, 28, 93, 26);
+		p1.add(qsub);
+		
+		JButton qsub2 = new JButton("Ä£ºý²éÑ¯");
+		qsub2.setBounds(367, 28, 93, 26);
+		p1.add(qsub2);
+		
+		JButton all = new JButton("\u5168\u90E8");
+		all.setBounds(264, 61, 93, 26);
+		p1.add(all);
+		
+		JPanel p2 = new JPanel();
+		p2.setBounds(0, 96, 530, 310);
+		qf.getContentPane().add(p2);
+		p2.setLayout(null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(0, 0, 530, 310);
+		p2.add(scrollPane_1);
+		
+		table = new JTable();
+		scrollPane_1.setColumnHeaderView(table);
+		
+	}
+}

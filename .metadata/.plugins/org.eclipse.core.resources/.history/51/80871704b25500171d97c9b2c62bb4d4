@@ -1,0 +1,43 @@
+package database;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+public class modifyframe {
+	JFrame mf = new JFrame("modify");
+	Container c = mf.getContentPane();
+	JComboBox op = new JComboBox();
+	JTextField mop = new JTextField();
+	JButton query = new JButton("查询");
+	JButton submit = new JButton("提交");
+	JPanel p1 = new JPanel();
+	JScrollPane p2 = new JScrollPane();
+	JPanel p3 = new JPanel();
+	JTable tbl = null;
+	public modifyframe(){
+		c.setLayout(new GridLayout(3,1));
+		c.add(p1);
+		c.add(p2);
+		c.add(p3);
+		p1.setLayout(new GridLayout(0, 3, 0, 0));
+		p1.add(op);
+		op.addItem("姓名");
+		op.addItem("学号");
+		op.addItem("电话");
+		op.addItem("e-mail");
+		p1.add(mop);
+		p1.add(query);
+		p1.setBounds(710,300,400,60);
+		p2.setViewportView(tbl);
+		p2.revalidate();
+		p2.setBounds(710,360,400,200);
+		p3.add(submit);
+		p3.setBounds(710,560,400,60);
+		mf.setVisible(true);
+		mf.setBounds(710,300,400,320);
+	}
+}

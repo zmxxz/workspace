@@ -1,0 +1,22 @@
+package database;
+
+import java.awt.Container;
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.JFrame;
+
+public class delframe {
+	JFrame df = new JFrame("del");
+	Container c = df.getContentPane();
+	JLabel option = new JLabel("É¾³ýÌõ¼þ£º");
+	JComboBox op = new JComboBox();
+	JTextField delop = new JTextField();
+	public delframe(){
+		c.setLayout(new GridLayout(1,3));
+		c.add(option);
+		c.add(op);
+		c.add(delop);
+		df.setVisible(true);
+		df.setBounds(500,300,400,100);
+	}
+}

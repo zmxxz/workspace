@@ -1,0 +1,41 @@
+package database;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+public class addframe {
+	JFrame af = new JFrame("add");
+	Container c = af.getContentPane();
+	JPanel p1 = new JPanel();
+	JPanel p2 = new JPanel();
+	JLabel name = new JLabel("姓名：",JLabel.CENTER);
+	JTextField nm = new JTextField();
+	JLabel gender = new JLabel("性别：",JLabel.CENTER);
+	JTextField gd = new JTextField();
+	JLabel schoolnum = new JLabel("学号：",JLabel.CENTER);
+	JTextField sn = new JTextField();
+	JLabel phone = new JLabel("电话：",JLabel.CENTER);
+	JTextField ph = new JTextField();
+	JLabel email = new JLabel("E-mail:",JLabel.CENTER);
+	JTextField em = new JTextField();
+	JButton submit = new JButton("提交：");
+	public addframe(){
+		c.setLayout(null);
+		c.add(p1);
+		c.add(p2);
+		p1.setLayout(new GridLayout(5,2));
+		p1.add(name);
+		p1.add(nm);
+		p1.add(gender);
+		p1.add(gd);
+		p1.add(schoolnum);
+		p1.add(sn);
+		p1.add(phone);
+		p1.add(ph);
+		p1.add(email);
+		p1.add(em);
+		p2.add(submit);
+		af.setVisible(true);
+		af.setBounds(500,300,400,600);
+	}
+}

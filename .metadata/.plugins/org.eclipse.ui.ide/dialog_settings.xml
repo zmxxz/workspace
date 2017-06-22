@@ -5,6 +5,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\Administrator\workspace\StudentInfo"/>
 			<item value="J:\Myjava_QQ"/>
 			<item value="C:\Users\Administrator\Documents\Lelecode.com\Java聊天室程序\Java聊天室程序源代码"/>
 			<item value="C:\Users\Administrator\workspace"/>

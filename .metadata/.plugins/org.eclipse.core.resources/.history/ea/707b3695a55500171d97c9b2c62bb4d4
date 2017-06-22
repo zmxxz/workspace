@@ -1,0 +1,73 @@
+package database;
+
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.Statement;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class delframe {
+	JFrame df = new JFrame("del");
+	Container c = df.getContentPane();
+	JLabel option = new JLabel("删除条件：",JLabel.CENTER);
+	JComboBox op = new JComboBox();
+	JTextField delop = new JTextField();
+	JPanel p1 = new JPanel();
+	JPanel p2 = new JPanel();
+	JButton submit = new JButton("提交");
+	public delframe(){
+		c.setLayout(new GridLayout(2,1));
+		c.add(p1);
+		c.add(p2);
+		p1.setLayout(new GridLayout(1,3));
+		p1.add(option);
+		op.addItem("姓名");
+		op.addItem("学号");
+		op.addItem("电话");
+		op.addItem("e-mail");
+		p2.add(submit,JButton.CENTER);
+		p1.add(op);
+		p1.add(delop);
+		df.setVisible(true);
+		df.setBounds(500,300,360,120);
+		submit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae){
+				try {
+					sub();
+					df.setVisible(false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public void sub() throws Exception{
+		Connection conn = addframe.getConnection();
+		String sql = null;
+		if(op.getSelectedItem()=="姓名"){
+			 sql = "delete from tongxun where sname = "+"'"+delop.getText()+"'";
+			
+		}else if(op.getSelectedItem()=="学号"){
+			 sql = "delete from tongxun where sno = "+"'"+delop.getText()+"'";
+			
+		}else if(op.getSelectedItem()=="电话"){
+			 sql = "delete from tongxun where phone = "+"'"+delop.getText()+"'";
+			
+		}else{
+			 sql = "delete from tongxun where email = "+"'"+delop.getText()+"'";
+			
+		}
+		Statement stmt = conn.createStatement();
+		stmt.executeUpdate(sql);
+		stmt.close();
+	}
+}

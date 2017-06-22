@@ -1,0 +1,98 @@
+package database;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+public class addframe {
+	JFrame af = new JFrame("add");
+	Container c = af.getContentPane();
+	JPanel p1 = new JPanel();
+	JPanel p2 = new JPanel();
+	JPanel p3 = new JPanel();
+	JPanel p4 = new JPanel();
+	JPanel p5 = new JPanel();
+	JPanel p6 = new JPanel();
+	JLabel name = new JLabel("姓名：",JLabel.CENTER);
+	JTextField nm = new JTextField();
+	JLabel gender = new JLabel("性别：",JLabel.CENTER);
+	JTextField gd = new JTextField();
+	JLabel schoolnum = new JLabel("学号：",JLabel.CENTER);
+	JTextField sn = new JTextField();
+	JLabel phone = new JLabel("电话：",JLabel.CENTER);
+	JTextField ph = new JTextField();
+	JLabel email = new JLabel("E-mail:",JLabel.CENTER);
+	JTextField em = new JTextField();
+	JButton submit = new JButton("提交");
+	public addframe(){
+		c.setLayout(new GridLayout(6,1));
+		c.add(p1);
+		c.add(p2);
+		c.add(p3);
+		c.add(p4);
+		c.add(p5);
+		c.add(p6);
+		p1.setLayout(new GridLayout(1,2));
+		p1.add(name);
+		p1.add(nm);
+		p2.setLayout(new GridLayout(1,2));
+		p2.add(gender);
+		p2.add(gd);
+		p3.setLayout(new GridLayout(1,2));
+		p3.add(schoolnum);
+		p3.add(sn);
+		p4.setLayout(new GridLayout(1,2));
+		p4.add(phone);
+		p4.add(ph);
+		p5.setLayout(new GridLayout(1,2));
+		p5.add(email);
+		p5.add(em);
+		p6.add(submit,JButton.CENTER);
+		af.setVisible(true);
+		af.setBounds(500,300,400,300);
+		submit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae){
+				try {
+					sub();
+				}  catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	public void sub() throws Exception{
+		Connection conn = getConnection();
+		String sql = "insert into tongxun values("
+				+ nm.getText()+','+gd.getText()+','+sn.getText()
+				+','+ph.getText()+','+em.getText()+")";
+		Statement stmt = conn.createStatement();
+		stmt.executeUpdate(sql);
+		stmt.close();
+	}
+	
+	public Connection getConnection() throws Exception{
+		//1.准备连接数据库的四个字符串
+		//1).创建Properties对象
+		Properties properties = new Properties();  
+		//2).获取jdbc.properties对应的输入流
+		InputStream in = 
+				this.getClass().getClassLoader().getResourceAsStream("../doc/info.properties");
+		//3).加载2）对应的输入流
+		properties.load(in);
+		//4).具体决定user等四个字符串
+		String user  = properties.getProperty("user");
+		String password = properties.getProperty("password");
+		String jdbcUrl = properties.getProperty("jdbcUrl");
+		String driver = properties.getProperty("driver");
+		//2.加载数据库驱动程序
+		Class.forName(driver);
+		//3.通过driverManager的getconnection()方法获取数据库连接
+		return DriverManager.getConnection(jdbcUrl,user,password);
+	}
+}

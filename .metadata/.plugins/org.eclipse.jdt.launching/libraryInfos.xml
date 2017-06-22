@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libraryInfos>
-<libraryInfo home="F:\Program Files\Java\jdk1.7.0_07" version="1.7.0_07">
+<libraryInfo home="F:\Program Files\Java\jdk1.7.0_07\jre" version="1.7.0_07">
 <bootpath>
 <entry path="F:\Program Files\Java\jdk1.7.0_07\jre\lib\resources.jar"/>
 <entry path="F:\Program Files\Java\jdk1.7.0_07\jre\lib\rt.jar"/>
@@ -19,7 +19,7 @@
 <entry path="F:\Program Files\Java\jdk1.7.0_07\jre\lib\endorsed"/>
 </endorsedDirs>
 </libraryInfo>
-<libraryInfo home="F:\Program Files\Java\jdk1.7.0_07\jre" version="1.7.0_07">
+<libraryInfo home="F:\Program Files\Java\jdk1.7.0_07" version="1.7.0_07">
 <bootpath>
 <entry path="F:\Program Files\Java\jdk1.7.0_07\jre\lib\resources.jar"/>
 <entry path="F:\Program Files\Java\jdk1.7.0_07\jre\lib\rt.jar"/>

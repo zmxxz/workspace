@@ -1,0 +1,24 @@
+package database;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+public class queryframe {
+	JFrame qf = new JFrame("query");
+	Container c = qf.getContentPane();
+	DefaultTableModel model;
+	JComboBox op = new JComboBox();
+	JTextField tf = new JTextField(20);
+	JTable tbl ;
+	JScrollPane scrollPane;
+	ResultSet rs;
+	public queryframe(){
+		
+	}
+}
